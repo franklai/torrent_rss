@@ -39,7 +39,7 @@ class SUBPIGItem {
         $pattern = '/<a href="(.*?)".*?>.*?<\/a>/';
         $this->enclosure['url'] = $this->download_prefix . htmlspecialchars_decode(FujirouCommon::getFirstMatch($s, $pattern));
 
-        $pattern = '/<p>([0-9\.]+) KB,/';
+        $pattern = '/<em class="xg1">\(([0-9\.]+) KB,/';
         $size = FujirouCommon::getFirstMatch($s, $pattern);
 
         $this->enclosure['size'] = round(floatval($size) * 1024);
