@@ -1,0 +1,7 @@
+{
+	"require": {
+		"rmccue/requests": ">=1.0",
+		"suin/php-rss-writer": ">=1.0",
+		"ddeboer/transcoder": "^1.0"
+	}
+}
