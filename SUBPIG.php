@@ -27,10 +27,10 @@ class SUBPIGItem {
         $this->title = FujirouCommon::getFirstMatch($s, $pattern);
     }
     private function parsePubDate($s) {
-        $pattern = '/<p class="y"><span title="(.*?)">/';
+        $pattern = '/<div class="y"><span title="(.*?)">/';
         $date = FujirouCommon::getFirstMatch($s, $pattern);
         if (!$date) {
-            $pattern = '/<p class="y">(.*?) 上传<\/p>/';
+            $pattern = '/<div class="y">(.*?) 上传<\/div>/';
             $date = FujirouCommon::getFirstMatch($s, $pattern);
         }
         $this->pubDate = strtotime($date);
