@@ -9,6 +9,7 @@ class PPXItem {
     public $url = '';
     public $pubDate = '';
     public $enclosure = array('url'=> '', 'size'=> 0, 'type'=> 'application/x-bittorrent');
+    public $guid = '';
 
     public function __construct($rawString) {
         $this->parse($rawString);
@@ -18,6 +19,8 @@ class PPXItem {
         $this->parseTitle($s);
         $this->parsePubDate($s);
         $this->parseEnclosure($s);
+
+        $this->guid = $this->enclosure['url'];
     }
 
     private function parseTitle($s) {

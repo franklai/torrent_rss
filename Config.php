@@ -25,6 +25,13 @@ class Config
                     'class' => 'PPX'
                 )
             ),
+            '31' => new ConfigItem(
+                array(
+                    'title' => '真田丸 Sanadamaru',
+                    'url'   => 'http://www.okcili.com/list/1/cL2YFuYWRhbWFydSBwcHgO0O0O/1.html',
+                    'class' => 'Okcili',
+                )
+            ),
             '2' => new ConfigItem(
                 array(
                     'title' => 'お義父さんと呼ばせて ',

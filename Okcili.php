@@ -4,14 +4,14 @@ require __DIR__ . '/vendor/autoload.php';
 Requests::register_autoloader();
 use Ddeboer\Transcoder\Transcoder;
 
-class SUBPIGItem {
+class OkciliItem {
     public $title = '';
     public $url = '';
     public $pubDate = '';
     public $enclosure = array('url'=> '', 'size'=> 0, 'type'=> 'application/x-bittorrent');
     public $guid = '';
 
-    private $download_prefix = 'http://www.suppig.net/';
+    private $link_prefix = 'http://www.okcili.com/';
 
     public function __construct($rawString) {
         $this->parse($rawString);
@@ -21,35 +21,37 @@ class SUBPIGItem {
         $this->parseTitle($s);
         $this->parsePubDate($s);
         $this->parseEnclosure($s);
+        $this->parseLink($s);
 
-        $this->guid = $this->enclosure['url'];
+        $this->guid = $this->link;
     }
 
     private function parseTitle($s) {
-        $pattern = '/<a href=".*?".*?>(.*?)<\/a>/';
+        $pattern = '/<a href=\'\/infos\/.*?\'.*?>(.*?)<\/a>/';
         $this->title = FujirouCommon::getFirstMatch($s, $pattern);
     }
     private function parsePubDate($s) {
-        $pattern = '/<div class="y"><span title="(.*?)">/';
+        $pattern = '/时间:<label>(.*?)<\/label>/';
         $date = FujirouCommon::getFirstMatch($s, $pattern);
-        if (!$date) {
-            $pattern = '/<div class="y">(.*?) 上传<\/div>/';
-            $date = FujirouCommon::getFirstMatch($s, $pattern);
-        }
         $this->pubDate = strtotime($date);
     }
     private function parseEnclosure($s) {
-        $pattern = '/<a href="(.*?)".*?>.*?<\/a>/';
-        $this->enclosure['url'] = $this->download_prefix . htmlspecialchars_decode(FujirouCommon::getFirstMatch($s, $pattern));
+        $pattern = '/<a href=\'(magnet:.*?)\'.*?>磁力链接<\/a>/';
+        $this->enclosure['url'] = FujirouCommon::getFirstMatch($s, $pattern);
 
-        $pattern = '/<em class="xg1">\(([0-9\.]+) KB,/';
-        $size = FujirouCommon::getFirstMatch($s, $pattern);
+        $pattern = '/大小:<label>(.*?)<\/label>/';
+        $raw_size = FujirouCommon::getFirstMatch($s, $pattern);
 
-        $this->enclosure['size'] = round(floatval($size) * 1024);
+        $this->enclosure['size'] = FujirouCommon::convertSize($raw_size);
+    }
+    private function parseLink($s) {
+        $pattern = '/<a href=\'(\/infos\/.*?)\'.*?>.*?<\/a>/';
+        $path = FujirouCommon::getFirstMatch($s, $pattern);
+        $this->link = $this->link_prefix . $path;
     }
 }
 
-class SUBPIG {
+class Okcili {
     private $site = '';
 
     public function __construct() {
@@ -62,8 +64,7 @@ class SUBPIG {
             return null;
         }
 
-        $transcoder = Transcoder::create();
-        $html = $transcoder->transcode($req->body, 'gbk');
+        $html = $req->body;
 
         return $html;
     }
@@ -77,25 +78,22 @@ class SUBPIG {
 
         $html = FujirouCommon::toOneLine($html);
 
-        $pattern = '/<ignore_js_op>(.*?)<\/ignore_js_op>/';
+        $pattern = '/<li>(.*?)<\/li>/';
         $matches = FujirouCommon::getAllFirstMatch($html, $pattern);
-
         
         $infos = array();
 
         foreach ($matches as $item) {
-            $info = new SUBPIGItem($item);
+            $info = new OkciliItem($item);
 
             if ($info) {
-                if (strpos($info->title, '.torrent') === false) {
+                if (strpos($info->enclosure['url'], 'magnet:') === false) {
                     // not torrent link
                     continue;
                 }
                 $infos[] = $info;
             }
         }
-
-        $infos = array_reverse($infos);
 
         return $infos;
     }

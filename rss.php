@@ -2,6 +2,7 @@
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/fujirou_common.php';
 require __DIR__ . '/Config.php';
+require __DIR__ . '/Okcili.php';
 require __DIR__ . '/PPX.php';
 require __DIR__ . '/SUBPIG.php';
 
@@ -32,6 +33,7 @@ class RSS
                 ->url($conf->url)
                 ->enclosure($info->enclosure['url'], $info->enclosure['size'], $info->enclosure['type'])
                 ->pubDate($info->pubDate)
+                ->guid($info->guid)
                 ->appendTo($channel);
         }
 
