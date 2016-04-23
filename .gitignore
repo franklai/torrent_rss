@@ -49,3 +49,6 @@ Temporary Items
 # project specific
 vendor
 composer.lock
+
+# vim
+.*.swp

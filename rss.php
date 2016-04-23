@@ -2,6 +2,7 @@
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/fujirou_common.php';
 require __DIR__ . '/Config.php';
+require __DIR__ . '/Alicili.php';
 require __DIR__ . '/Okcili.php';
 require __DIR__ . '/PPX.php';
 require __DIR__ . '/SUBPIG.php';
@@ -30,7 +31,7 @@ class RSS
             $item = new Item();
             $item
                 ->title($info->title)
-                ->url($conf->url)
+                ->url($info->url)
                 ->enclosure($info->enclosure['url'], $info->enclosure['size'], $info->enclosure['type'])
                 ->pubDate($info->pubDate)
                 ->guid($info->guid)

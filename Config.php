@@ -38,6 +38,13 @@ class Config
                     'url'   => 'http://www.suppig.net/forum.php?mod=viewthread&tid=1122161',
                     'class' => 'SUBPIG'
                 )
+            ),
+            '55' => new ConfigItem(
+                array(
+                    'title' => '真田丸 Sanadamau (PPX)',
+                    'url'   => 'http://alicili.org/list/sanadamaru%20ppx/1-1-2/',
+                    'class' => 'Alicili'
+                )
             )
         );
     }
