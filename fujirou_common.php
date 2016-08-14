@@ -68,7 +68,7 @@ class FujirouCommon
      * convert size with unit to bytes
      */
     public static function convertSize($string) {
-        $pattern = '/([0-9\.]+ *([a-zA-Z]*))/';
+        $pattern = '/([0-9\.]+)\s*([a-zA-Z]*)/';
         $number;
         $unit;
         $unitTable = array('Bytes', 'KB', 'MB', 'GB', 'TB');
@@ -99,4 +99,3 @@ class FujirouCommon
 }
 
 // vim: expandtab ts=4
-?>

@@ -59,13 +59,25 @@ if (isset($_GET['id'])) {
     $class = $conf->class;
 
     $parser = new $class();
-    $infos = $parser->parse($conf->url);
-    if (!$infos) {
-        echo "Failed to parse";
+
+
+    if (isset($_GET['page'])) {
+        $location = $parser->parsePage($_GET['page']);
+        if (!$location) {
+            header("HTTP/1.0 404 Not Found");
+        } else {
+            header("Location: $location");
+        }
+        exit;
+    } else {
+        $infos = $parser->parse($conf->url);
+        if (!$infos) {
+            echo "Failed to parse";
+            exit;
+        }
+        RSS::output($conf, $infos);
         exit;
     }
-    RSS::output($conf, $infos);
-    exit;
 }
 
 echo "specify your id";
