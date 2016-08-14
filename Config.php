@@ -39,6 +39,13 @@ class Config
                     'class' => 'SUBPIG'
                 )
             ),
+            '61' => new ConfigItem(
+                array(
+                    'title' => 'Zhuixinfan (btcat)',
+                    'url'   => 'http://www.btcat.net/search/zhuixinfan/',
+                    'class' => 'BTcat'
+                )
+            ),
             '55' => new ConfigItem(
                 array(
                     'title' => '真田丸 Sanadamau (PPX)',
